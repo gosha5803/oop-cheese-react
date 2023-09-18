@@ -34,20 +34,33 @@ export class Cell {
         this.figure.cell = this
     }
 
+    addLostFigure(figure:Figures) {
+        figure.color == Colors.BLACK ?
+        this.board.lostBlackFigures.push(figure)
+        : this.board.lostWhiteFigures.push(figure)
+        console.log(this.board.lostBlackFigures)
+        
+    }
+
     public moveFigure (target:Cell) {
+        // console.log(target)
         // if(this.figure?.canMove(target)){
         //     // this.figure.moveFigure(target)
         //     // target.setFigure(this.figure)
         //     // this.figure = null
         // }
         if(target.available && this.figure){
+            if(target.figure) {
+                this.addLostFigure(target.figure)
+                
+            }
+
+
             target.setFigure(this.figure) 
             this.figure = null
         }
         if(target.figure?.name == FigureNames.PAWN){
-            console.log(target.figure.firstStep)    
             target.figure.firstStep = false  
-            console.log(target.figure.firstStep)    
         }
 
     }
@@ -149,7 +162,5 @@ export class Cell {
         return false
     }
 
-    isEmptyPawn(target:Cell): boolean {
-        // let pawn:Pawn 
-        return false    }
+
 }

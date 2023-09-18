@@ -28,7 +28,7 @@ export class Pawn extends Figures {
                 && offSetY * dx == 1
                 && target.figure
                 ){
-                console.log(target.x, target.y, this.cell.x, this.cell.y)
+
                 return true
             }
             return false

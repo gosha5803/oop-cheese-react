@@ -19,6 +19,8 @@ function App() {
         setBoard(board0)
     }
 
+
+
   return (
     <div className="App container">
       <BoardComponent

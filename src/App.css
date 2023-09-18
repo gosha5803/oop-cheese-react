@@ -19,7 +19,7 @@
 .cell{
   width: 64px;
   height: 64px;
-  background-image: url('../../pngs/kindpng_7950884.png');
+  /* background-image: url('../../pngs/kindpng_7950884.png'); */
 }
 
 .black{
@@ -27,7 +27,7 @@
 }
 
 .white{
-  background-color: rgb(222, 186, 133);
+  background-color: rgb(223 159 65);
 }
 
 .true{
@@ -54,4 +54,8 @@
 
 .enenmy {
   background-color: brown;
+}
+
+.lost-figures {
+  background-color:rgb(223 159 65);
 }

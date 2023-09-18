@@ -3,6 +3,7 @@ import { Board } from "../models/Borad";
 import CellComponent from "./CellComponent";
 import { Cell } from "../models/Cell";
 import { Colors } from "../models/Colors";
+import TimerComponent from "./TimerComponent";
 
 interface BoardProps {
     board: Board
@@ -12,8 +13,14 @@ interface BoardProps {
 const BoardComponent: FC <BoardProps> = ({board, setBoard}) => {
     const [selectedCell, setSelectedCell] = useState<Cell | null>(null)
     const [currentPlayer, setCurrentPlayer] = useState<Colors>(Colors.WHITE)
-
+    const [time, setTime] = useState<number>(300)
     // console.log(selectedCell)
+
+    const timer = () => {
+        setTimeout(() => {
+            setTime(pre => pre - 1)
+        },1000)
+    }
 
     const selectCell = (cell:Cell) => {
         if(cell.figure?.color == currentPlayer){
@@ -28,20 +35,20 @@ const BoardComponent: FC <BoardProps> = ({board, setBoard}) => {
                     if(!cell.available) {
 
                         if(cell.figure?.color == currentPlayer) {
-                            console.log(cell)
+
                             setSelectedCell(cell)
                             return
                         }
-                        console.log(cell)
+
                         setSelectedCell(null)
                         return
                     }
 
 
             selectedCell.moveFigure(cell)
-            console.log(selectedCell)
+            
             setSelectedCell(null)
-            console.log(selectedCell)
+            
             setCurrentPlayer(currentPlayer == Colors.WHITE ? Colors.BLACK : Colors.WHITE)
 
         }
@@ -82,6 +89,8 @@ const BoardComponent: FC <BoardProps> = ({board, setBoard}) => {
     //     setBoard(newBoard)
     // }
 
+    console.log(board.lostBlackFigures)
+
     return(
         <div
         style={{
@@ -90,9 +99,13 @@ const BoardComponent: FC <BoardProps> = ({board, setBoard}) => {
         }}
         >
         <h1>Ход игрока: {currentPlayer}</h1>
+        <TimerComponent
+        currentPlayer={currentPlayer}
+        />
         <div
         className="board"
         >
+            
         {board.Cells.map(cellRow => cellRow.map(cell => 
             <CellComponent 
             selectCell={selectCell}
@@ -102,6 +115,35 @@ const BoardComponent: FC <BoardProps> = ({board, setBoard}) => {
             // передаём в пропсы всех ячеек результат сравнения их самих с выбранной ячейкой
             />
             ))}                  
+        </div>
+        <div
+        className="lost-figures"
+        >
+            <div>
+                <h3>Lost black</h3>
+                <ul>
+                    {board.lostBlackFigures.map(lost => 
+                        <li 
+                        key={lost.id}
+                        >
+                            {lost.name}
+                            <img src={lost.logo}/>
+                        </li>)}
+                </ul>
+            </div>
+            <div>
+            <h3>Lost white</h3>
+                <ul>
+                    {board.lostWhiteFigures.map(lost => 
+                        <li 
+                        key={lost.id}
+                        >
+                            {lost.name}
+                            <img src={lost.logo}/>
+                        </li>)}
+                </ul>
+            </div>
+            
         </div>
         </div>
     )
