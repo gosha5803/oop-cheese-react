@@ -129,7 +129,7 @@ export class Cell {
             absX  &&
             absY &&
               absX + absY === 3) {
-            console.log(this, target)
+            // console.log(this, target)
             return true
         }
 

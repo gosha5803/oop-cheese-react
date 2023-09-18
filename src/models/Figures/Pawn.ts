@@ -46,13 +46,10 @@ export class Pawn extends Figures {
             )
             ) {
                 for (let i = 1; i < absX; i++) {
-                    console.log(target.board.getCell(this.cell.x + i, this.cell.y))
                     if (!target.board.getCell(this.cell.x + i * -dx, this.cell.y).isEmpty()) {
-                        console.log(absX)
                         return false
                     }
                 }
-                console.log(target)
                 return true
         }
 
