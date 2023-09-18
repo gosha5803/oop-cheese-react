@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { Board } from "../models/Borad";
 import CellComponent from "./CellComponent";
 import { Cell } from "../models/Cell";
+import { Colors } from "../models/Colors";
 
 interface BoardProps {
     board: Board
@@ -10,25 +11,41 @@ interface BoardProps {
 
 const BoardComponent: FC <BoardProps> = ({board, setBoard}) => {
     const [selectedCell, setSelectedCell] = useState<Cell | null>(null)
+    const [currentPlayer, setCurrentPlayer] = useState<Colors>(Colors.WHITE)
 
     // console.log(selectedCell)
 
     const selectCell = (cell:Cell) => {
+        if(cell.figure?.color == currentPlayer){
+            setSelectedCell(cell)   
+        }
         
         if(selectedCell && selectedCell !== cell 
-            && (
-                cell.available 
-                || !cell.figure
-                ) ) {
+            // && (cell.available)
+            ) 
+            {
+
+                    if(!cell.available) {
+
+                        if(cell.figure?.color == currentPlayer) {
+                            console.log(cell)
+                            setSelectedCell(cell)
+                            return
+                        }
+                        console.log(cell)
+                        setSelectedCell(null)
+                        return
+                    }
+
 
             selectedCell.moveFigure(cell)
+            console.log(selectedCell)
             setSelectedCell(null)
-            return
+            console.log(selectedCell)
+            setCurrentPlayer(currentPlayer == Colors.WHITE ? Colors.BLACK : Colors.WHITE)
+
         }
-        if(cell.figure){
-            setSelectedCell(cell)   
-            
-        }
+        
         // Проверка, если на клетке передаваемой в функцию нету фигуры, значит её нельзя назначить выбранной.
     }
 
@@ -67,6 +84,13 @@ const BoardComponent: FC <BoardProps> = ({board, setBoard}) => {
 
     return(
         <div
+        style={{
+            display:'flex',
+            flexDirection:'column'
+        }}
+        >
+        <h1>Ход игрока: {currentPlayer}</h1>
+        <div
         className="board"
         >
         {board.Cells.map(cellRow => cellRow.map(cell => 
@@ -78,6 +102,7 @@ const BoardComponent: FC <BoardProps> = ({board, setBoard}) => {
             // передаём в пропсы всех ячеек результат сравнения их самих с выбранной ячейкой
             />
             ))}                  
+        </div>
         </div>
     )
 }
