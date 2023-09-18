@@ -4,6 +4,7 @@ import CellComponent from "./CellComponent";
 import { Cell } from "../models/Cell";
 import { Colors } from "../models/Colors";
 import TimerComponent from "./TimerComponent";
+import LostFigures from "./LostFiguresComponent";
 
 interface BoardProps {
     board: Board
@@ -116,35 +117,10 @@ const BoardComponent: FC <BoardProps> = ({board, setBoard}) => {
             />
             ))}                  
         </div>
-        <div
-        className="lost-figures"
-        >
-            <div>
-                <h3>Lost black</h3>
-                <ul>
-                    {board.lostBlackFigures.map(lost => 
-                        <li 
-                        key={lost.id}
-                        >
-                            {lost.name}
-                            <img src={lost.logo}/>
-                        </li>)}
-                </ul>
-            </div>
-            <div>
-            <h3>Lost white</h3>
-                <ul>
-                    {board.lostWhiteFigures.map(lost => 
-                        <li 
-                        key={lost.id}
-                        >
-                            {lost.name}
-                            <img src={lost.logo}/>
-                        </li>)}
-                </ul>
-            </div>
-            
-        </div>
+            <LostFigures
+            blackFigures={board.lostBlackFigures}
+            whiteFigures={board.lostWhiteFigures}
+            />
         </div>
     )
 }
